@@ -1,0 +1,3 @@
+[submodule "sqlite-createtable-parser"]
+	path = sqlite-createtable-parser
+	url = https://github.com/marcobambini/sqlite-createtable-parser.git
