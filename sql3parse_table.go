@@ -8,15 +8,72 @@ package parse
 #include "sqlite-createtable-parser/sql3parse_table.c"
 */
 import "C"
+import (
+	"fmt"
+	"unsafe"
+	"github.com/pkg/errors"
+)
 
 type Table struct {
-	Schema           string
-	Name             string
+	Schema           *string
+	Name             *string
 	Temporary        bool
 	IfNotExists      bool
 	WithoutRowid     bool
 	Columns          []Column
 	TableConstraints []TableConstraint
+}
+
+type parseError int
+
+const (
+	parseErrorNone parseError = iota
+	parseErrorMemory
+	parseErrorSyntax
+	parseErrorUnsupportedSQL
+)
+
+func FromString(sql string) (*Table, error) {
+	fmt.Println(sql)
+	sqlString := C.CString(sql)
+	defer C.free(unsafe.Pointer(sqlString))
+
+	sqlStringLength := C.ulong(len(sql))
+
+	var err C.sql3error_code
+
+	tablePointer := C.sql3parse_table(sqlString, sqlStringLength, &err)
+	defer C.sql3table_free(tablePointer)
+
+	fmt.Println(tablePointer, err)
+	switch err {
+	case C.SQL3ERROR_MEMORY:
+		return nil, errors.New("sqlite-createtable-parser: sql3parse_table() reported SQL3ERROR_MEMORY")
+	case C.SQL3ERROR_SYNTAX:
+		return nil, errors.New("sqlite-createtable-parser: sql3parse_table() reported SQL3ERROR_SYNTAX")
+	case C.SQL3ERROR_UNSUPPORTEDSQL:
+		return nil, errors.New("sqlite-createtable-parser: sql3parse_table() reported SQL3ERROR_UNSUPPORTEDSQL")
+	}
+	
+	// table := &Table{}
+	
+	schema := sql3stringToGo(C.sql3table_schema(tablePointer))
+	name := sql3stringToGo(C.sql3table_name(tablePointer))
+	temporary := bool(C.sql3table_is_temporary(tablePointer))
+	fmt.Printf("sql3table_schema(): %T %+v\n", schema, schema)
+	fmt.Printf("sql3table_name(): %T %+v\n", name, name)
+	fmt.Printf("sql3table_is_temporary(): %T %+v\n", temporary, temporary)
+
+	return nil, nil
+}
+
+func sql3stringToGo(input *C.sql3string) *string {
+	if input == nil || input.ptr == nil {
+		return nil
+	}
+	converted := C.GoStringN(input.ptr, C.int(input.length))
+	fmt.Printf("converted: %s\n", converted)
+	return &converted
 }
 
 type OrderClause int
