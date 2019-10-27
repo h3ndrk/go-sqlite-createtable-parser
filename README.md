@@ -87,6 +87,17 @@ fmt.Println(stmt)
 // }
 ```
 
+## `CHECK` table constraints not supported
+
+As of the creation of this repository, [sqlite-createtable-parser](https://github.com/marcobambini/sqlite-createtable-parser) does not support parsing `CHECK` table constraints. For example:
+
+```sql
+CREATE TABLE a (b INTEGER, CHECK (b >= 42));
+```
+
+will return a `SQL3ERROR_SYNTAX` error.
+
+
 ## License
 
 MIT, see `LICENSE` file.

@@ -1117,6 +1117,7 @@ func TestTableConstraintUnique(t *testing.T) {
 	assert.Nil(t, table.TableConstraints[0].ForeignKey)
 }
 
+// CHECK expressions are not supported by sqlite-createtable-parser
 // func TestTableConstraintCheck(t *testing.T) {
 // 	table, err := FromString("CREATE TABLE a (b INTEGER, CHECK (b = 42))")
 // 	assert.NoError(t, err)
