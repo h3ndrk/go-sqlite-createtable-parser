@@ -95,8 +95,11 @@ As of the creation of this repository, [sqlite-createtable-parser](https://githu
 CREATE TABLE a (b INTEGER, CHECK (b >= 42));
 ```
 
-will return a `SQL3ERROR_SYNTAX` error.
+will return a `SQL3ERROR_SYNTAX` error. `CHECK` column constraints are on the other hand supported (notice the removed comma):
 
+```sql
+CREATE TABLE a (b INTEGER CHECK (b >= 42));
+```
 
 ## License
 
