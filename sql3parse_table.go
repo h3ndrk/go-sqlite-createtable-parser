@@ -154,9 +154,9 @@ func fromColumnPtr(ptr *C.sql3column) (*Column, error) {
 		PrimaryKeyConflict: ConflictClause(C.sql3column_pk_conflictclause(ptr)),
 		NotNullConflict:    ConflictClause(C.sql3column_notnull_conflictclause(ptr)),
 		UniqueConflict:     ConflictClause(C.sql3column_unique_conflictclause(ptr)),
-		Check:              sql3stringToGo(C.sql3column_name(ptr)),
-		Default:            sql3stringToGo(C.sql3column_name(ptr)),
-		CollateName:        sql3stringToGo(C.sql3column_name(ptr)),
+		Check:              sql3stringToGo(C.sql3column_check_expr(ptr)),
+		Default:            sql3stringToGo(C.sql3column_default_expr(ptr)),
+		CollateName:        sql3stringToGo(C.sql3column_collate_name(ptr)),
 	}
 
 	if foreignKeyPtr := C.sql3column_foreignkey_clause(ptr); foreignKeyPtr != nil {
