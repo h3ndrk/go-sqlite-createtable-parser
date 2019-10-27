@@ -9,7 +9,6 @@ package parse
 */
 import "C"
 import (
-	"fmt"
 	"unsafe"
 
 	"github.com/pkg/errors"
@@ -35,7 +34,6 @@ const (
 )
 
 func FromString(sql string) (*Table, error) {
-	fmt.Println(sql)
 	sqlString := C.CString(sql)
 	defer C.free(unsafe.Pointer(sqlString))
 
@@ -92,8 +90,6 @@ func FromString(sql string) (*Table, error) {
 		}
 		table.TableConstraints = append(table.TableConstraints, *tableConstraint)
 	}
-
-	fmt.Printf("%+v\n", table)
 
 	return table, nil
 }
