@@ -4,8 +4,8 @@ package parse
 
 /*
 #include <stdint.h>
-#include "sqlite-createtable-parser/sql3parse_table.h"
-#include "sqlite-createtable-parser/sql3parse_table.c"
+#include "sql3parse_table.h"
+#include "sql3parse_table.c"
 */
 import "C"
 import (
