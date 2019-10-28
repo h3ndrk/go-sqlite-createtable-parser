@@ -93,10 +93,12 @@ func FromString(sql string) (*Table, error) {
 }
 
 func sql3stringToGo(ptr *C.sql3string) *string {
-	if ptr == nil || ptr.ptr == nil {
+	if ptr == nil {
 		return nil
 	}
-	converted := C.GoStringN(ptr.ptr, C.int(ptr.length))
+	var length C.ulong
+	s := C.sql3string_ptr(ptr, &length)
+	converted := C.GoStringN(s, C.int(length))
 	return &converted
 }
 
