@@ -3,7 +3,6 @@
 package parse
 
 /*
-#include <stdint.h>
 #include "sql3parse_table.h"
 #include "sql3parse_table.c"
 */

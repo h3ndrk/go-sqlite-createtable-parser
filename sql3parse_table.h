@@ -18,6 +18,7 @@
 #include <string.h>
 #include <stdlib.h>
 #include <stdbool.h>
+#include <stdint.h>
 
 // Make sure we can call this stuff from C++
 #ifdef __cplusplus
