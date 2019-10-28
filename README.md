@@ -1,8 +1,16 @@
 # go-sqlite-createtable-parser
 
-This repository contains a Golang binding for https://github.com/marcobambini/sqlite-createtable-parser. The underlying sqlite-createtable-parser is a parser for SQLite `CREATE TABLE` statements (see https://www.sqlite.org/lang_createtable.html).
+This repository contains a Golang binding for [sqlite-createtable-parser](https://github.com/marcobambini/sqlite-createtable-parser) (MIT license). The underlying sqlite-createtable-parser is a parser for SQLite `CREATE TABLE` statements (see [syntax](https://www.sqlite.org/lang_createtable.html)).
+
+From [sqlite-createtable-parser/README.md](https://github.com/marcobambini/sqlite-createtable-parser/blob/master/README.md):
+
+> ## Motivation
+> 
+> [SQLite](https://www.sqlite.org/) is a very powerful software but it lacks an easy way to extract complete information about tables and columns constraints. This drawback in addition to the lack of full ALTER TABLE support makes alterring a table a very hard task. The built-in sqlite pragmas provide incomplete information and a manual parsing is required in order to extract all the metadata from a table.
 
 ## Installation
+
+A C99 compiler is required.
 
 ```bash
 go get github.com/h3ndrk/go-sqlite-createtable-parser
@@ -87,19 +95,21 @@ fmt.Println(stmt)
 // }
 ```
 
-## `CHECK` table constraints not supported
+## Implementation status
 
-As of the creation of this repository, [sqlite-createtable-parser](https://github.com/marcobambini/sqlite-createtable-parser) does not support parsing `CHECK` table constraints. For example:
+As of the creation of this repository, [sqlite-createtable-parser](https://github.com/marcobambini/sqlite-createtable-parser) does **not support** parsing `CHECK` **table** constraints. For example
 
 ```sql
 CREATE TABLE a (b INTEGER, CHECK (b >= 42));
 ```
 
-will return a `SQL3ERROR_SYNTAX` error. `CHECK` column constraints are on the other hand supported (notice the removed comma):
+will return a `SQL3ERROR_SYNTAX` error. However, `CHECK` **column** constraints are on the other hand **supported** (notice the removed comma):
 
 ```sql
 CREATE TABLE a (b INTEGER CHECK (b >= 42));
 ```
+
+All other syntax of `CREATE TABLE` is **supported**. This repository adds many tests to ensure that the parser works.
 
 ## License
 
