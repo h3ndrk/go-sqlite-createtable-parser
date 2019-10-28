@@ -13,7 +13,7 @@ From [sqlite-createtable-parser/README.md](https://github.com/marcobambini/sqlit
 A C99 compiler is required.
 
 ```bash
-go get github.com/h3ndrk/go-sqlite-createtable-parser
+go get github.com/h3ndrk/go-sqlite-createtable-parser@v1.0.0
 ```
 
 ## How to use
