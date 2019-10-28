@@ -4,7 +4,6 @@ package parse
 
 /*
 #include "sql3parse_table.h"
-#include "sql3parse_table.c"
 */
 import "C"
 import (
